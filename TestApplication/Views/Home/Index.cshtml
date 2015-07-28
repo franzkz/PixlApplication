@@ -1,0 +1,51 @@
+﻿@model TestApplication.Models.AccessTokenModel
+
+@{
+    ViewBag.Title = "Test Application";
+}
+<div id="homecontroller" data-ng-controller="HomeController">
+    @Html.HiddenFor(model => model.AccessToken, new { id = "accessToken", ng_bind = "model.AccessToken" })
+    <div data-ng-init="getOrderList()" class="wrapper" infinite-scroll="getOrderList(+1)">
+        <p>
+            Orders list
+        </p>
+        <div data-ng-repeat="order in model.orders" class="row breadcrumb">
+            <div class="item ">
+                <h3>#{{order.CustomId}} {{order.Title}}</h3>
+
+                <div class="col-md-3">
+                    <img ng-if="order.PreviewImageUrl" ng-src="{{order.PreviewImageUrl}}" class="img-responsive" />
+                    <img ng-if="!order.PreviewImageUrl" ng-src="{{order.PreviewImageUrl}}" class="img-responsive glyphicon glyphicon-camera" />
+                </div>
+
+                <div class="col-md-4">
+                    <dl class="dl-horizontal">
+                        <dt>Status:</dt>
+                        <dd>{{order.Status}}</dd>
+                    </dl>
+
+                    <dl class="dl-horizontal">
+                        <dt>Payment Status:</dt>
+                        <dd>{{order.PaymentStatus}}</dd>
+                    </dl>
+
+                    <dl class="dl-horizontal">
+                        <dt>Total Price:</dt>
+                        <dd>{{order.TotalPrice}}</dd>
+                    </dl>
+                </div>
+
+                <div class="col-md-4">
+                    <strong>Delivery Address:</strong>
+                    <address ng-if="order.DeliveryAddress">
+                        <strong>{{order.DeliveryAddress.FullName}}</strong><br/>
+                        <em ng-if="order.DeliveryAddress.Description">{{order.DeliveryAddress.Description}}</em><br ng-if="order.DeliveryAddress.Description"/>
+                        <abbr title="Address">A:</abbr> {{order.DeliveryAddress.Country}}, {{order.DeliveryAddress.State}}<br/>
+                        {{order.DeliveryAddress.City}}, {{order.DeliveryAddress.AddressLine1}}<br/>
+                        <abbr title="Phone">P:</abbr> {{order.DeliveryAddress.Phone}}
+                    </address>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
